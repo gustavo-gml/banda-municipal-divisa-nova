@@ -14,14 +14,20 @@ import SectionTitle from "@/components/ui/SectionTitle";
 import BackToHome from "@/components/layout/BackToHome";
 import GalleryGrid from "@/components/galeria/GalleryGrid";
 import { getGalleryItems } from "@/lib/data";
+import type { Metadata } from "next";
+import { connection } from "next/server";
 
-export const metadata = {
+export const metadata: Metadata = {
   title: "Galeria",
   description:
     "Veja fotos e vídeos das apresentações e momentos especiais da Banda Municipal José Ângelo Vaz de Divisa Nova – MG.",
 };
 
+export const instant = false;
+
 export default async function GaleriaPage() {
+  await connection();
+
   const { items, total, page, pageSize } = await getGalleryItems({ page: 1, pageSize: 12 });
 
   return (

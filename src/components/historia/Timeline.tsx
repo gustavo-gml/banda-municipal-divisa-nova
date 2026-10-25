@@ -13,11 +13,13 @@
 
 import SectionTitle from "@/components/ui/SectionTitle";
 import Container from "@/components/ui/Container";
+import type { HistoryEntry } from "@/types/history";
 
-/**
- * @param {{ items: Array }} props
- */
-export default function Timeline({ items = [] }) {
+type TimelineProps = {
+  items: HistoryEntry[];
+};
+
+export default function Timeline({ items = [] }: TimelineProps) {
   return (
     <Container as="section" aria-label="Linha do tempo histórica">
       <SectionTitle subtitle="Uma jornada de música e tradição">
@@ -75,7 +77,7 @@ export default function Timeline({ items = [] }) {
                   */}
                   <div
                     className="flex h-48 items-center justify-center bg-surface text-muted text-sm"
-                    aria-label={item.imageAlt}
+                    aria-label={item.imageAlt ?? undefined}
                   >
                     📷 {item.imageAlt}
                   </div>

@@ -15,12 +15,13 @@ import Container from "@/components/ui/Container";
 import SectionTitle from "@/components/ui/SectionTitle";
 import Button from "@/components/ui/Button";
 import Card from "@/components/ui/Card";
+import type { Event } from "@/types/event";
 
 /**
  * Formata data ISO (YYYY-MM-DD) em pt-BR legível: "15 de novembro de 2025"
  * @param {string} isoDate
  */
-function formatDate(isoDate) {
+function formatDate(isoDate: Event["date"]) {
   const [year, month, day] = isoDate.split("-").map(Number);
   const date = new Date(year, month - 1, day);
   return date.toLocaleDateString("pt-BR", {
@@ -30,10 +31,11 @@ function formatDate(isoDate) {
   });
 }
 
-/**
- * @param {{ events: Array }} props
- */
-export default function AgendaTeaser({ events = [] }) {
+type AgendaTeaserProps = {
+  events: Event[];
+};
+
+export default function AgendaTeaser({ events = [] }: AgendaTeaserProps) {
   return (
     <section id="agenda" aria-label="Próximos Eventos" className="home-section bg-background py-12">
       <Container>

@@ -5,8 +5,9 @@
  * TODO: substituir pela busca ao Prismic com getHighlights() em src/lib/data.js.
  */
 
-/** @type {Array<{id: string, title: string, subtitle: string, imageUrl: string, imageAlt: string, ctaLabel: string, ctaHref: string}>} */
-export const mockHighlights = [
+import type { Highlight } from "@/types/highlight";
+
+export const mockHighlights: Highlight[] = [
   {
     id: "hl-001",
     title: "Concerto de Aniversário",

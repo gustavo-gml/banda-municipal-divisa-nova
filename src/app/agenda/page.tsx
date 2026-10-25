@@ -14,14 +14,20 @@ import BackToHome from "@/components/layout/BackToHome";
 import EventCalendar from "@/components/agenda/EventCalendar";
 import EventList from "@/components/agenda/EventList";
 import { getEvents } from "@/lib/data";
+import type { Metadata } from "next";
+import { connection } from "next/server";
 
-export const metadata = {
+export const metadata: Metadata = {
   title: "Agenda",
   description:
     "Confira os próximos eventos e apresentações da Banda Municipal José Ângelo Vaz de Divisa Nova – MG.",
 };
 
+export const instant = false;
+
 export default async function AgendaPage() {
+  await connection();
+
   const events = await getEvents();
 
   return (

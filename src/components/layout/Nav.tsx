@@ -14,8 +14,17 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
 
-/** @type {Array<{label: string, href: string}>} */
-const NAV_LINKS = [
+type NavLink = {
+  label: string;
+  id: string;
+};
+
+type NavProps = {
+  onLinkClick?: () => void;
+  className?: string;
+};
+
+const NAV_LINKS: NavLink[] = [
   { label: "História", id: "historia" },
   { label: "Agenda", id: "agenda" },
   { label: "Galeria", id: "galeria" },
@@ -23,51 +32,56 @@ const NAV_LINKS = [
   { label: "Contato", id: "contato" },
 ];
 
-/**
- * @param {{ onLinkClick?: () => void, className?: string }} props
- */
-export default function Nav({ onLinkClick, className = "" }) {
+export default function Nav({ onLinkClick, className = "" }: NavProps) {
   const pathname = usePathname();
   const isHome = pathname === "/";
-  const [activeSection, setActiveSection] = useState(null);
+  const [activeSection, setActiveSection] = useState<string | null>(null);
 
   useEffect(() => {
     if (!isHome) {
       return undefined;
     }
 
-    const sections = NAV_LINKS.map(({ id }) => document.getElementById(id)).filter(Boolean);
+    const sections = NAV_LINKS.map(({ id }) => document.getElementById(id)).filter(
+      (section): section is HTMLElement => section !== null,
+    );
     const header = document.querySelector("header");
     const headerOffset = header?.getBoundingClientRect().height ?? 0;
-    const firstSectionTop = sections[0]?.offsetTop ?? 0;
-    let observer;
+    const updateActiveSection = () => {
+      const currentPosition = window.scrollY + headerOffset + 1;
+      const firstSectionTop =
+        (sections[0]?.getBoundingClientRect().top ?? 0) + window.scrollY;
 
-    const updateActiveSection = (entries) => {
-      const visibleEntries = entries
-        .filter((entry) => entry.isIntersecting)
-        .sort((first, second) => first.boundingClientRect.top - second.boundingClientRect.top);
-
-      if (window.scrollY + headerOffset < firstSectionTop) {
+      if (currentPosition < firstSectionTop) {
         setActiveSection(null);
-      } else if (visibleEntries[0]) {
-        setActiveSection(visibleEntries[0].target.id);
+        return;
       }
+
+      const currentSection = sections
+        .map((section) => ({
+          id: section.id,
+          top: section.getBoundingClientRect().top + window.scrollY,
+        }))
+        .filter((section) => section.top <= currentPosition)
+        .at(-1);
+
+      setActiveSection(currentSection?.id ?? null);
     };
 
-    observer = new IntersectionObserver(updateActiveSection, {
+    const observer = new IntersectionObserver(updateActiveSection, {
       rootMargin: `-${headerOffset}px 0px -55% 0px`,
       threshold: [0, 0.1, 0.5, 1],
     });
     sections.forEach((section) => observer.observe(section));
 
-    const handleScroll = () => {
-      if (window.scrollY + headerOffset < firstSectionTop) setActiveSection(null);
-    };
-    window.addEventListener("scroll", handleScroll, { passive: true });
+    updateActiveSection();
+    window.addEventListener("scroll", updateActiveSection, { passive: true });
+    window.addEventListener("resize", updateActiveSection);
 
     return () => {
       observer.disconnect();
-      window.removeEventListener("scroll", handleScroll);
+      window.removeEventListener("scroll", updateActiveSection);
+      window.removeEventListener("resize", updateActiveSection);
     };
   }, [isHome]);
 

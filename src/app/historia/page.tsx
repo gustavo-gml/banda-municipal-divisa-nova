@@ -12,8 +12,9 @@ import Container from "@/components/ui/Container";
 import BackToHome from "@/components/layout/BackToHome";
 import Timeline from "@/components/historia/Timeline";
 import { getHistory } from "@/lib/data";
+import type { Metadata } from "next";
 
-export const metadata = {
+export const metadata: Metadata = {
   title: "História",
   description:
     "Conheça a trajetória da Banda Municipal José Ângelo Vaz de Divisa Nova – MG, desde sua fundação em 1945 até os dias de hoje.",

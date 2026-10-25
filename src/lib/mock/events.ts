@@ -5,8 +5,9 @@
  * TODO: substituir pela busca ao Prismic com getEvents() em src/lib/data.js.
  */
 
-/** @type {Array<{id: string, title: string, date: string, time: string, location: string, description: string, category: string}>} */
-export const mockEvents = [
+import type { Event } from "@/types/event";
+
+export const mockEvents: Event[] = [
   {
     id: "evt-001",
     title: "Concerto de Aniversário da Cidade",

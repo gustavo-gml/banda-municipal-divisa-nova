@@ -5,8 +5,9 @@
  * TODO: substituir pela busca ao Prismic com getHistory() em src/lib/data.js.
  */
 
-/** @type {Array<{id: string, decade: string, title: string, description: string, imageUrl: string|null, imageAlt: string|null}>} */
-export const mockHistory = [
+import type { HistoryEntry } from "@/types/history";
+
+export const mockHistory: HistoryEntry[] = [
   {
     id: "hist-1940",
     decade: "1940",

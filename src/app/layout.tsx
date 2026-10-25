@@ -1,5 +1,9 @@
 import { Inter, Playfair_Display } from "next/font/google";
+import type { Metadata } from "next";
+import { PrismicPreview } from "@prismicio/next";
 import { ThemeProvider } from "next-themes";
+import type { ReactNode } from "react";
+import { repositoryName } from "@/prismicio";
 import { AccessibilityProvider } from "@/context/AccessibilityContext";
 import SkipLink from "@/components/layout/SkipLink";
 import Header from "@/components/layout/Header";
@@ -28,7 +32,7 @@ const inter = Inter({
 /* ------------------------------------------------------------------
    Metadata — SEO e PWA
    ------------------------------------------------------------------ */
-export const metadata = {
+export const metadata: Metadata = {
   title: {
     default: "Banda Municipal José Ângelo Vaz | Divisa Nova – MG",
     template: "%s | Banda Municipal José Ângelo Vaz",
@@ -51,7 +55,11 @@ export const metadata = {
 /* ------------------------------------------------------------------
    Layout raiz
    ------------------------------------------------------------------ */
-export default function RootLayout({ children }) {
+type RootLayoutProps = {
+  children: ReactNode;
+};
+
+export default function RootLayout({ children }: RootLayoutProps) {
   return (
     /*
      * suppressHydrationWarning: necessário porque next-themes muda o atributo
@@ -87,6 +95,8 @@ export default function RootLayout({ children }) {
 
             {/* Rodapé */}
             <Footer />
+
+            <PrismicPreview repositoryName={repositoryName} />
           </AccessibilityProvider>
         </ThemeProvider>
       </body>

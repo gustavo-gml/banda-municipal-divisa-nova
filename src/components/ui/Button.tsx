@@ -19,8 +19,9 @@
  */
 
 import Link from "next/link";
+import type { AnchorHTMLAttributes, ButtonHTMLAttributes, ReactNode } from "react";
 
-const VARIANT_CLASSES = {
+const VARIANT_CLASSES: Record<ButtonVariant, string> = {
   primary: [
     "bg-primary text-primary-foreground",
     "hover:opacity-90",
@@ -38,32 +39,35 @@ const VARIANT_CLASSES = {
   ].join(" "),
 };
 
-const SIZE_CLASSES = {
+const SIZE_CLASSES: Record<ButtonSize, string> = {
   sm: "px-4 py-2 text-sm min-h-[2.75rem]",
   md: "px-6 py-3 text-base min-h-[2.75rem]",
   lg: "px-8 py-4 text-lg min-h-[2.75rem]",
 };
 
-/**
- * @param {{
- *   variant?: "primary" | "secondary" | "ghost",
- *   size?: "sm" | "md" | "lg",
- *   href?: string,
- *   fullWidth?: boolean,
- *   className?: string,
- *   children: React.ReactNode,
- *   [key: string]: any
- * }} props
- */
-export default function Button({
-  variant = "primary",
-  size = "md",
-  href,
-  fullWidth = false,
-  className = "",
-  children,
-  ...rest
-}) {
+type ButtonVariant = "primary" | "secondary" | "ghost";
+type ButtonSize = "sm" | "md" | "lg";
+
+type BaseButtonProps = {
+  variant?: ButtonVariant;
+  size?: ButtonSize;
+  fullWidth?: boolean;
+  className?: string;
+  children: ReactNode;
+};
+
+type ButtonProps =
+  | (BaseButtonProps & AnchorHTMLAttributes<HTMLAnchorElement> & { href: string })
+  | (BaseButtonProps & ButtonHTMLAttributes<HTMLButtonElement> & { href?: undefined });
+
+export default function Button(props: ButtonProps) {
+  const {
+    variant = "primary",
+    size = "md",
+    fullWidth = false,
+    className = "",
+    children,
+  } = props;
   const baseClasses = [
     "inline-flex items-center justify-center gap-2 rounded-lg font-semibold",
     "transition-all duration-150",
@@ -73,13 +77,17 @@ export default function Button({
     className,
   ].join(" ");
 
-  if (href) {
+  if ("href" in props && props.href !== undefined) {
+    const { href, variant: _variant, size: _size, fullWidth: _fullWidth, className: _className, children: _children, ...rest } = props;
+
     return (
       <Link href={href} className={baseClasses} {...rest}>
         {children}
       </Link>
     );
   }
+
+  const { variant: _variant, size: _size, fullWidth: _fullWidth, className: _className, children: _children, href: _href, ...rest } = props;
 
   return (
     <button type="button" className={baseClasses} {...rest}>

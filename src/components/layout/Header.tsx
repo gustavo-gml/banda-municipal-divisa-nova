@@ -23,8 +23,8 @@ import Nav from "./Nav";
 
 export default function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
-  const hamburgerRef = useRef(null);
-  const headerRef = useRef(null);
+  const hamburgerRef = useRef<HTMLButtonElement>(null);
+  const headerRef = useRef<HTMLElement>(null);
   const menuId = "mobile-menu";
 
   /* Mantém o offset das âncoras sincronizado com a altura do cabeçalho. */
@@ -48,7 +48,7 @@ export default function Header() {
 
   /* Fechar menu com Esc */
   useEffect(() => {
-    function handleKeyDown(e) {
+    function handleKeyDown(e: KeyboardEvent) {
       if (e.key === "Escape" && menuOpen) {
         setMenuOpen(false);
         hamburgerRef.current?.focus();

@@ -21,8 +21,14 @@ import { useAccessibility } from "@/hooks/useAccessibility";
 
 export default function AccessibilityBar() {
   const { theme, setTheme } = useTheme();
-  const { highContrast, toggleContrast, fontSize, increaseFontSize, decreaseFontSize, fontScales } =
-    useAccessibility();
+  const {
+    highContrast,
+    toggleContrast,
+    fontSize,
+    increaseFontSize,
+    decreaseFontSize,
+    fontScales,
+  } = useAccessibility();
 
   /* Evitar mismatch de hidratação com next-themes */
   const [mounted, setMounted] = useState(false);

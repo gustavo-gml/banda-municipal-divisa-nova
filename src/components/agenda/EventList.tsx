@@ -12,11 +12,13 @@
  */
 
 import Card from "@/components/ui/Card";
+import type { Event } from "@/types/event";
 
-/**
- * @param {{ events: Array }} props
- */
-export default function EventList({ events = [] }) {
+type EventListProps = {
+  events: Event[];
+};
+
+export default function EventList({ events = [] }: EventListProps) {
   if (events.length === 0) {
     return (
       <p className="py-8 text-center text-muted">

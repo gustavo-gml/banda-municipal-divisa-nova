@@ -18,21 +18,24 @@
 
 "use client";
 
+import Image from "next/image";
 import { useState } from "react";
 import Container from "@/components/ui/Container";
 import SectionTitle from "@/components/ui/SectionTitle";
 import Button from "@/components/ui/Button";
+import type { Highlight } from "@/types/highlight";
 
-/**
- * @param {{ items: import("@/lib/mock/highlights").mockHighlights }} props
- */
-export default function Highlights({ items = [] }) {
+type HighlightsProps = {
+  items: Highlight[];
+};
+
+export default function Highlights({ items = [] }: HighlightsProps) {
   // TODO: substituir este estado simples pela lógica do embla-carousel
   const [activeIndex, setActiveIndex] = useState(0);
 
   const total = items.length;
 
-  function goTo(index) {
+  function goTo(index: number) {
     setActiveIndex((index + total) % total);
   }
 
@@ -68,16 +71,16 @@ export default function Highlights({ items = [] }) {
                 <div
                   className={[
                     "relative h-64 rounded-xl bg-surface md:h-80",
-                    "flex flex-col items-center justify-center gap-3 p-6 text-center",
                     "border border-border",
                   ].join(" ")}
-                  aria-hidden="true"
                 >
-                  {/* TODO: substituir por:
-                    <Image src={item.imageUrl} alt={item.imageAlt} fill className="object-cover rounded-xl" />
-                    <div className="absolute inset-0 bg-primary/60 rounded-xl" />
-                  */}
-                  <div className="text-5xl text-accent">𝄞</div>
+                  <Image
+                    src={item.imageUrl}
+                    alt={item.imageAlt}
+                    fill
+                    sizes="(min-width: 768px) 33vw, 100vw"
+                    className="rounded-xl object-cover"
+                  />
                 </div>
 
                 {/* Conteúdo do slide */}

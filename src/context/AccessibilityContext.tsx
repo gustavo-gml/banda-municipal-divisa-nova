@@ -15,14 +15,36 @@
 
 "use client";
 
-import { createContext, startTransition, useCallback, useEffect, useState } from "react";
+import {
+  createContext,
+  startTransition,
+  useCallback,
+  useEffect,
+  useState,
+  type ReactNode,
+} from "react";
 
 /* Escalas de fonte disponíveis em % */
-export const FONT_SCALES = [100, 112, 125, 150];
+export const FONT_SCALES = [100, 112, 125, 150] as const;
+export type FontScale = (typeof FONT_SCALES)[number];
 
-export const AccessibilityContext = createContext(null);
+export type AccessibilityContextValue = {
+  highContrast: boolean;
+  toggleContrast: () => void;
+  fontSize: FontScale;
+  setFontSize: (scale: FontScale) => void;
+  increaseFontSize: () => void;
+  decreaseFontSize: () => void;
+  fontScales: readonly FontScale[];
+};
 
-export function AccessibilityProvider({ children }) {
+export const AccessibilityContext = createContext<AccessibilityContextValue | null>(null);
+
+type AccessibilityProviderProps = {
+  children: ReactNode;
+};
+
+export function AccessibilityProvider({ children }: AccessibilityProviderProps) {
   /* ------------------------------------------------------------------ */
   /* Estado: alto contraste                                               */
   /* ------------------------------------------------------------------ */
@@ -31,7 +53,7 @@ export function AccessibilityProvider({ children }) {
   /* ------------------------------------------------------------------ */
   /* Estado: escala de fonte (%)                                          */
   /* ------------------------------------------------------------------ */
-  const [fontSize, setFontSizeState] = useState(100);
+  const [fontSize, setFontSizeState] = useState<FontScale>(100);
 
   /* ------------------------------------------------------------------ */
   /* Hidratação: ler preferências salvas no localStorage                  */
@@ -47,8 +69,9 @@ export function AccessibilityProvider({ children }) {
         startTransition(() => setHighContrast(true));
       }
 
-      if (savedFont && FONT_SCALES.includes(Number(savedFont))) {
-        const scale = Number(savedFont);
+      const savedScale = Number(savedFont);
+      if (savedFont && FONT_SCALES.some((availableScale) => availableScale === savedScale)) {
+        const scale = savedScale as FontScale;
         document.documentElement.style.fontSize = `${scale}%`;
         startTransition(() => setFontSizeState(scale));
       }
@@ -81,7 +104,7 @@ export function AccessibilityProvider({ children }) {
   /* ------------------------------------------------------------------ */
   /* Ação: definir escala de fonte                                        */
   /* ------------------------------------------------------------------ */
-  const setFontSize = useCallback((scale) => {
+  const setFontSize = useCallback((scale: FontScale) => {
     if (!FONT_SCALES.includes(scale)) return;
     setFontSizeState(scale);
     try {

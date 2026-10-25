@@ -11,15 +11,21 @@
  *   - className: classes adicionais no wrapper
  */
 
-/**
- * @param {{
- *   children: React.ReactNode,
- *   subtitle?: string,
- *   centered?: boolean,
- *   className?: string
- * }} props
- */
-export default function SectionTitle({ children, subtitle, centered = false, className = "" }) {
+import type { ReactNode } from "react";
+
+type SectionTitleProps = {
+  children: ReactNode;
+  subtitle?: string;
+  centered?: boolean;
+  className?: string;
+};
+
+export default function SectionTitle({
+  children,
+  subtitle,
+  centered = false,
+  className = "",
+}: SectionTitleProps) {
   return (
     <div className={["mb-8", centered ? "text-center" : "", className].join(" ")}>
       <h2

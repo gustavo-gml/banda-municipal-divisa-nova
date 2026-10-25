@@ -12,8 +12,13 @@
 
 import Link from "next/link";
 
-/** @type {Array<{label: string, icon: string, href: string}>} */
-const SOCIAL_LINKS = [
+type SocialLink = {
+  label: string;
+  icon: string;
+  href: string;
+};
+
+const SOCIAL_LINKS: SocialLink[] = [
   {
     label: "Facebook da Banda Municipal",
     icon: "f",

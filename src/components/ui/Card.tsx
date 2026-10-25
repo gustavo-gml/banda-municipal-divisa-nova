@@ -12,14 +12,15 @@
  * Dica: envolver o Card em <li> quando for item de uma lista.
  */
 
-/**
- * @param {{
- *   as?: keyof JSX.IntrinsicElements,
- *   className?: string,
- *   children: React.ReactNode
- * }} props
- */
-export default function Card({ as: Tag = "article", className = "", children }) {
+import type { ElementType, ReactNode } from "react";
+
+type CardProps = {
+  as?: ElementType;
+  className?: string;
+  children: ReactNode;
+};
+
+export default function Card({ as: Tag = "article", className = "", children }: CardProps) {
   return (
     <Tag
       className={[

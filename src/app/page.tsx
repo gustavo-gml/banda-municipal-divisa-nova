@@ -24,14 +24,20 @@ import JoinTeaser from "@/components/home/JoinTeaser";
 import LocationMap from "@/components/home/LocationMap";
 
 import { getEvents, getHighlights, getGalleryItems, getHistory } from "@/lib/data";
+import type { Metadata } from "next";
+import { connection } from "next/server";
 
-export const metadata = {
+export const metadata: Metadata = {
   title: "Página Inicial",
   description:
     "Bem-vindo à Banda Municipal José Ângelo Vaz de Divisa Nova – MG. Conheça nossa história, agenda de eventos, galeria e como fazer parte.",
 };
 
+export const instant = false;
+
 export default async function HomePage() {
+  await connection();
+
   /* Busca paralela dos dados (todos independentes entre si) */
   const [highlights, upcomingEvents, galleryResult, history] = await Promise.all([
     getHighlights(),

@@ -13,11 +13,13 @@
 import Container from "@/components/ui/Container";
 import SectionTitle from "@/components/ui/SectionTitle";
 import Button from "@/components/ui/Button";
+import type { HistoryEntry } from "@/types/history";
 
-/**
- * @param {{ history: Array }} props
- */
-export default function HistoryTeaser({ history = [] }) {
+type HistoryTeaserProps = {
+  history: HistoryEntry[];
+};
+
+export default function HistoryTeaser({ history = [] }: HistoryTeaserProps) {
   // Exibe o primeiro marco histórico como prévia
   const firstEntry = history[0];
 

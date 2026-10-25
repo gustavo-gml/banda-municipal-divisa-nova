@@ -18,22 +18,45 @@
 
 "use client";
 
-/**
- * @param {{
- *   items: Array,
- *   total: number,
- *   page: number,
- *   pageSize: number,
- *   onPageChange?: (page: number) => void
- * }} props
- */
+import Image from "next/image";
+import type { GalleryItem } from "@/types/gallery";
+
+type GalleryGridProps = {
+  items: GalleryItem[];
+  total: number;
+  page: number;
+  pageSize: number;
+  onPageChange?: (page: number) => void;
+};
+
+function getVideoEmbedUrl(url: string): string | null {
+  try {
+    const parsedUrl = new URL(url);
+    if (parsedUrl.hostname === "youtu.be") {
+      const videoId = parsedUrl.pathname.slice(1);
+      return videoId ? `https://www.youtube.com/embed/${videoId}` : null;
+    }
+    if (parsedUrl.hostname.includes("youtube.com")) {
+      const videoId = parsedUrl.searchParams.get("v");
+      return videoId ? `https://www.youtube.com/embed/${videoId}` : null;
+    }
+    if (parsedUrl.hostname.includes("vimeo.com")) {
+      const videoId = parsedUrl.pathname.split("/").filter(Boolean).pop();
+      return videoId ? `https://player.vimeo.com/video/${videoId}` : null;
+    }
+  } catch {
+    return null;
+  }
+  return null;
+}
+
 export default function GalleryGrid({
   items = [],
   total = 0,
   page = 1,
   pageSize = 12,
   onPageChange,
-}) {
+}: GalleryGridProps) {
   const totalPages = Math.max(1, Math.ceil(total / pageSize));
 
   return (
@@ -46,29 +69,47 @@ export default function GalleryGrid({
       >
         {items.map((item) => (
           <li key={item.id}>
-            {/* TODO: substituir por <button> que abre o lightbox */}
             <div
               className={[
                 "group relative aspect-square overflow-hidden rounded-xl",
                 "cursor-pointer border border-border bg-surface",
                 "hover:border-accent transition-colors duration-150",
               ].join(" ")}
-              role="button"
-              tabIndex={0}
               aria-label={`Ver ${item.type === "video" ? "vídeo" : "foto"}: ${item.caption}`}
-              // TODO: onClick={() => openLightbox(item.id)}
-              // TODO: onKeyDown={(e) => e.key === "Enter" && openLightbox(item.id)}
             >
-              {/* Placeholder da imagem */}
-              {/* TODO: <Image src={item.thumbnailSrc} alt={item.alt} fill className="object-cover" /> */}
-              <div className="flex h-full flex-col items-center justify-center gap-2 p-3">
-                <span className="text-4xl text-accent" aria-hidden="true">
-                  {item.type === "video" ? "▶" : "🎵"}
-                </span>
-                <span className="line-clamp-2 text-center text-xs text-muted">
-                  {item.caption}
-                </span>
-              </div>
+              {item.type === "photo" && (
+                <Image
+                  src={item.thumbnailSrc}
+                  alt={item.alt}
+                  fill
+                  sizes="(min-width: 1024px) 25vw, (min-width: 768px) 33vw, 50vw"
+                  className="object-cover"
+                />
+              )}
+              {item.type === "video" && (
+                getVideoEmbedUrl(item.src) ? (
+                  <iframe
+                    src={getVideoEmbedUrl(item.src) ?? undefined}
+                    title={item.caption ?? "Vídeo da Banda Municipal"}
+                    className="absolute inset-0 h-full w-full"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                    allowFullScreen
+                  />
+                ) : (
+                  <a
+                    href={item.src}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="relative z-10 flex h-full flex-col items-center justify-center gap-2 p-3 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
+                    aria-label={`Abrir vídeo: ${item.caption ?? item.alt}`}
+                  >
+                    <span className="text-4xl text-accent" aria-hidden="true">▶</span>
+                    <span className="line-clamp-2 text-center text-xs text-muted">
+                      {item.caption}
+                    </span>
+                  </a>
+                )
+              )}
 
               {/* Badge de vídeo */}
               {item.type === "video" && (

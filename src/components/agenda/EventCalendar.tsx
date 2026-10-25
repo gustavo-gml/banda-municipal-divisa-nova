@@ -16,6 +16,7 @@
 "use client";
 
 import { startTransition, useEffect, useState } from "react";
+import type { Event } from "@/types/event";
 
 const WEEKDAYS = ["Dom", "Seg", "Ter", "Qua", "Qui", "Sex", "Sáb"];
 const MONTHS_PT = [
@@ -23,16 +24,17 @@ const MONTHS_PT = [
   "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro",
 ];
 
-/**
- * @param {{ events: Array }} props
- */
-export default function EventCalendar({ events = [] }) {
+type EventCalendarProps = {
+  events: Event[];
+};
+
+export default function EventCalendar({ events = [] }: EventCalendarProps) {
   // Inicializa com null para evitar new Date() durante o prerender (Next.js 16)
-  const [year, setYear] = useState(null);
-  const [month, setMonth] = useState(null);
-  const [todayDay, setTodayDay] = useState(null);
-  const [todayMonth, setTodayMonth] = useState(null);
-  const [todayYear, setTodayYear] = useState(null);
+  const [year, setYear] = useState<number | null>(null);
+  const [month, setMonth] = useState<number | null>(null);
+  const [todayDay, setTodayDay] = useState<number | null>(null);
+  const [todayMonth, setTodayMonth] = useState<number | null>(null);
+  const [todayYear, setTodayYear] = useState<number | null>(null);
 
   useEffect(() => {
     const now = new Date();
@@ -46,7 +48,7 @@ export default function EventCalendar({ events = [] }) {
   }, []);
 
   // Enquanto não hidratado, retorna placeholder acessível
-  if (year === null) {
+  if (year === null || month === null) {
     return (
       <div className="rounded-xl border border-border bg-surface p-4 text-center text-sm text-muted">
         Carregando calendário…
@@ -72,13 +74,13 @@ export default function EventCalendar({ events = [] }) {
   const daysInMonth = new Date(year, month + 1, 0).getDate();
 
   function prevMonth() {
-    if (month === 0) { setMonth(11); setYear((y) => y - 1); }
-    else setMonth((m) => m - 1);
+    if (month === 0) { setMonth(11); setYear((y) => (y ?? 0) - 1); }
+    else setMonth((m) => (m ?? 0) - 1);
   }
 
   function nextMonth() {
-    if (month === 11) { setMonth(0); setYear((y) => y + 1); }
-    else setMonth((m) => m + 1);
+    if (month === 11) { setMonth(0); setYear((y) => (y ?? 0) + 1); }
+    else setMonth((m) => (m ?? 0) + 1);
   }
 
   /* Gerar células do calendário */

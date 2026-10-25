@@ -11,14 +11,15 @@
  *   - children
  */
 
-/**
- * @param {{
- *   as?: keyof JSX.IntrinsicElements,
- *   className?: string,
- *   children: React.ReactNode
- * }} props
- */
-export default function Container({ as: Tag = "div", className = "", children }) {
+import type { ElementType, ReactNode } from "react";
+
+type ContainerProps = {
+  as?: ElementType;
+  className?: string;
+  children: ReactNode;
+};
+
+export default function Container({ as: Tag = "div", className = "", children }: ContainerProps) {
   return (
     <Tag
       className={[

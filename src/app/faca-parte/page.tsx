@@ -13,8 +13,9 @@ import SectionTitle from "@/components/ui/SectionTitle";
 import BackToHome from "@/components/layout/BackToHome";
 import Requirements from "@/components/faca-parte/Requirements";
 import JoinForm from "@/components/faca-parte/JoinForm";
+import type { Metadata } from "next";
 
-export const metadata = {
+export const metadata: Metadata = {
   title: "Faça Parte",
   description:
     "Saiba como ingressar na Banda Municipal José Ângelo Vaz de Divisa Nova – MG. Inscrições abertas para novos músicos.",

@@ -15,44 +15,54 @@
 "use client";
 
 import { useState } from "react";
+import type { ChangeEvent, FormEvent } from "react";
 import Button from "@/components/ui/Button";
 
+type FormState = {
+  name: string;
+  email: string;
+  phone: string;
+};
+
+type FormStatus = "idle" | "loading" | "success" | "error";
+
 /** Remove caracteres perigosos de uma string (sanitização básica) */
-function sanitize(str) {
+function sanitize(str: string): string {
   return str.replace(/[<>"'`]/g, "").trim();
 }
 
 /** Valida e-mail básico */
-function isValidEmail(email) {
+function isValidEmail(email: string): boolean {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 }
 
 /** Formata telefone para exibição */
-function formatPhone(value) {
+function formatPhone(value: string): string {
   const digits = value.replace(/\D/g, "").slice(0, 11);
   if (digits.length <= 2) return digits;
   if (digits.length <= 7) return `(${digits.slice(0, 2)}) ${digits.slice(2)}`;
   return `(${digits.slice(0, 2)}) ${digits.slice(2, 7)}-${digits.slice(7)}`;
 }
 
-const INITIAL_FORM = { name: "", email: "", phone: "" };
-const INITIAL_ERRORS = { name: "", email: "", phone: "" };
+const INITIAL_FORM: FormState = { name: "", email: "", phone: "" };
+const INITIAL_ERRORS: FormState = { name: "", email: "", phone: "" };
 
 export default function JoinForm() {
   const [form, setForm] = useState(INITIAL_FORM);
   const [errors, setErrors] = useState(INITIAL_ERRORS);
-  const [status, setStatus] = useState("idle"); // idle | loading | success | error
+  const [status, setStatus] = useState<FormStatus>("idle");
 
-  function handleChange(e) {
+  function handleChange(e: ChangeEvent<HTMLInputElement>) {
     const { name, value } = e.target;
-    const sanitized = name === "phone" ? formatPhone(value) : sanitize(value);
-    setForm((prev) => ({ ...prev, [name]: sanitized }));
+    const fieldName = name as keyof FormState;
+    const sanitized = fieldName === "phone" ? formatPhone(value) : sanitize(value);
+    setForm((prev) => ({ ...prev, [fieldName]: sanitized }));
     // Limpar erro ao digitar
-    if (errors[name]) setErrors((prev) => ({ ...prev, [name]: "" }));
+    if (errors[fieldName]) setErrors((prev) => ({ ...prev, [fieldName]: "" }));
   }
 
-  function validate() {
-    const newErrors = { name: "", email: "", phone: "" };
+  function validate(): boolean {
+    const newErrors: FormState = { name: "", email: "", phone: "" };
     let valid = true;
 
     if (!form.name || form.name.length < 3) {
@@ -72,7 +82,7 @@ export default function JoinForm() {
     return valid;
   }
 
-  async function handleSubmit(e) {
+  async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
     if (!validate()) return;
 

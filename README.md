@@ -1,7 +1,7 @@
 # Banda Municipal José Ângelo Vaz — Site Institucional
 
 > Projeto acadêmico — Landing page institucional para a Banda Municipal José Ângelo Vaz de Divisa Nova – MG.
-> Desenvolvido por 4 integrantes como trabalho do curso de TADS.
+> Desenvolvido por Agabo Monteiro, Gustavo Martins, José Gabriel e Tiago Lemes como prática de extensão do curso de Sistemas de Informação do IFSULDEMINAS - Machado.
 
 ---
 
@@ -37,6 +37,7 @@ npm run build
 |-----------|--------|-----|
 | Next.js | 16.x | Framework React (App Router) |
 | React | 19.x | Interface |
+| TypeScript | 6.x | Tipagem estática e contratos de dados |
 | Tailwind CSS | 4.x | Estilização (tokens via `@theme inline`) |
 | next-themes | latest | Alternância de tema claro/escuro |
 | Prismic | _a instalar_ | CMS (não configurado ainda) |
@@ -49,14 +50,14 @@ npm run build
 ```
 src/
   app/
-    layout.js               # Layout raiz: fontes, ThemeProvider, Header, Footer
-    page.js                 # Home (compõe as seções)
+    layout.tsx              # Layout raiz: fontes, ThemeProvider, Header, Footer
+    page.tsx                # Home (compõe as seções)
     globals.css             # Tailwind + design system (CSS variables + @theme inline)
-    historia/page.js
-    agenda/page.js
-    galeria/page.js
-    faca-parte/page.js
-    contato/page.js
+    historia/page.tsx
+    agenda/page.tsx
+    galeria/page.tsx
+    faca-parte/page.tsx
+    contato/page.tsx
   components/
     layout/                 # Header, Footer, Nav, AccessibilityBar, SkipLink
     ui/                     # Button, Card, SectionTitle, Container, Modal (reutilizáveis)
@@ -68,12 +69,13 @@ src/
     faca-parte/             # Requirements, JoinForm
     contato/                # ContactInfo, ContactMap
   context/
-    AccessibilityContext.js # Alto contraste + escala de fonte
+    AccessibilityContext.tsx # Alto contraste + escala de fonte
   hooks/
-    useAccessibility.js     # Hook de conveniência para o contexto
+    useAccessibility.ts     # Hook de conveniência para o contexto
   lib/
-    data.js                 # getEvents(), getHighlights(), getGalleryItems(), getHistory()
-    mock/                   # events.js, highlights.js, gallery.js, history.js
+    data.ts                 # getEvents(), getHighlights(), getGalleryItems(), getHistory()
+    mock/                   # events.ts, highlights.ts, gallery.ts, history.ts
+  types/                    # Contratos TypeScript dos dados da aplicação
 public/
   images/                   # Imagens do projeto (placeholder: .gitkeep)
 ```
@@ -158,7 +160,7 @@ Aplicada via `document.documentElement.style.fontSize` em `%`. Todo o layout usa
 
 ### Componentes
 
-- **Um componente por arquivo**, nome em **PascalCase** (ex.: `HeroBanner.js`).
+- **Um componente por arquivo**, nome em **PascalCase** (ex.: `HeroBanner.tsx`).
 - Pasta do componente segue a seção: `components/home/`, `components/ui/`, etc.
 - **Server Component por padrão** — adicionar `"use client"` apenas quando houver `useState`, `useEffect` ou handlers de eventos.
 - **Somente tokens** de design system nas classes Tailwind. Nunca cores hexadecimais fixas.
@@ -167,19 +169,32 @@ Aplicada via `document.documentElement.style.fontSize` em `%`. Todo o layout usa
 
 ### Dados
 
-- As **page.js** buscam os dados via funções de `src/lib/data.js` (Server Components).
+- As **page.tsx** buscam os dados via funções de `src/lib/data.ts` (Server Components).
 - Os **componentes** recebem dados por **props** — nunca importam mocks diretamente.
-- Para troca futura com Prismic: altere apenas `src/lib/data.js`.
+- Para troca futura com Prismic: altere apenas `src/lib/data.ts`.
 
 ### Nomenclatura de arquivos
 
 | Tipo | Exemplo |
 |------|---------|
-| Componente | `HeroBanner.js` |
-| Página | `page.js` (padrão App Router) |
-| Mock | `events.js` (minúsculo) |
-| Hook | `useAccessibility.js` |
-| Context | `AccessibilityContext.js` |
+| Componente | `HeroBanner.tsx` |
+| Página | `page.tsx` (padrão App Router) |
+| Mock | `events.ts` (minúsculo) |
+| Hook | `useAccessibility.ts` |
+| Context | `AccessibilityContext.tsx` |
+
+## Tipos
+
+Os contratos de dados ficam em `src/types/`, separados por seção:
+
+| Arquivo | Contrato | Campos principais |
+|---------|----------|------------------|
+| `event.ts` | `Event` | `id`, `title`, `date`, `time`, `location`, `description?`, `category` |
+| `highlight.ts` | `Highlight` | `id`, `title`, `subtitle`, `imageUrl`, `imageAlt`, `ctaLabel`, `ctaHref` |
+| `gallery.ts` | `GalleryItem` | `id`, `type`, `src`, `thumbnailSrc`, `alt`, `caption?`, `year` |
+| `history.ts` | `HistoryEntry` | `id`, `decade`, `title`, `description`, `imageUrl`, `imageAlt` |
+
+Os tipos refletem os campos existentes nos mocks para preservar os dados e o comportamento da aplicação durante a migração.
 
 ---
 
@@ -243,10 +258,10 @@ Antes de abrir um PR, verifique:
 
 ## TODO global (próximas tarefas)
 
-- [ ] Integrar Prismic CMS (substituir funções em `src/lib/data.js`)
+- [ ] Integrar Prismic CMS (substituir funções em `src/lib/data.ts`)
 - [ ] Adicionar fotos reais (substituir placeholders em `components/`)
-- [ ] Instalar e integrar `embla-carousel-react` no `Highlights.js`
-- [ ] Implementar lightbox na galeria (`Modal.js` já preparado)
+- [ ] Instalar e integrar `embla-carousel-react` no `Highlights.tsx`
+- [ ] Implementar lightbox na galeria (`Modal.tsx` já preparado)
 - [ ] Criar API Route `/api/join` para o formulário de inscrição
 - [ ] Adicionar imagem Open Graph (`/og-image.jpg`)
 - [ ] Configurar deploy na Vercel com variáveis de ambiente do Prismic

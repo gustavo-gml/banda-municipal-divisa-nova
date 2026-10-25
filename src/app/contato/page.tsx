@@ -13,8 +13,9 @@ import SectionTitle from "@/components/ui/SectionTitle";
 import BackToHome from "@/components/layout/BackToHome";
 import ContactInfo from "@/components/contato/ContactInfo";
 import ContactMap from "@/components/contato/ContactMap";
+import type { Metadata } from "next";
 
-export const metadata = {
+export const metadata: Metadata = {
   title: "Contato",
   description:
     "Entre em contato com a Banda Municipal José Ângelo Vaz de Divisa Nova – MG. Endereço, telefone, e-mail e redes sociais.",

@@ -5,8 +5,9 @@
  * TODO: substituir pela busca ao Prismic com getGalleryItems() em src/lib/data.js.
  */
 
-/** @type {Array<{id: string, type: "photo"|"video", src: string, thumbnailSrc: string, alt: string, caption: string, year: number}>} */
-export const mockGalleryItems = [
+import type { GalleryItem } from "@/types/gallery";
+
+export const mockGalleryItems: GalleryItem[] = [
   {
     id: "gal-001",
     type: "photo",

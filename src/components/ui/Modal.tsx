@@ -22,23 +22,23 @@
 "use client";
 
 import { useEffect, useRef } from "react";
+import type { ReactNode } from "react";
 
-/**
- * @param {{
- *   isOpen: boolean,
- *   onClose: () => void,
- *   title: string,
- *   children: React.ReactNode
- * }} props
- */
-export default function Modal({ isOpen, onClose, title, children }) {
-  const dialogRef = useRef(null);
+type ModalProps = {
+  isOpen: boolean;
+  onClose: () => void;
+  title: string;
+  children: ReactNode;
+};
+
+export default function Modal({ isOpen, onClose, title, children }: ModalProps) {
+  const dialogRef = useRef<HTMLDivElement>(null);
   const titleId = "modal-title";
 
   /* Fechar com Esc */
   useEffect(() => {
     if (!isOpen) return;
-    function handleKeyDown(e) {
+    function handleKeyDown(e: globalThis.KeyboardEvent) {
       if (e.key === "Escape") onClose();
     }
     document.addEventListener("keydown", handleKeyDown);

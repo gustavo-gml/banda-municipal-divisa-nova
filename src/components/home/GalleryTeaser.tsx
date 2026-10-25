@@ -13,11 +13,14 @@
 import Container from "@/components/ui/Container";
 import SectionTitle from "@/components/ui/SectionTitle";
 import Button from "@/components/ui/Button";
+import Image from "next/image";
+import type { GalleryItem } from "@/types/gallery";
 
-/**
- * @param {{ items: Array }} props
- */
-export default function GalleryTeaser({ items = [] }) {
+type GalleryTeaserProps = {
+  items: GalleryItem[];
+};
+
+export default function GalleryTeaser({ items = [] }: GalleryTeaserProps) {
   const preview = items.slice(0, 4);
 
   return (
@@ -37,19 +40,32 @@ export default function GalleryTeaser({ items = [] }) {
           >
             {preview.map((item) => (
               <li key={item.id}>
-                {/* TODO: substituir por <button> com lightbox quando imagens reais estiverem disponíveis */}
                 <div
                   className={[
                     "relative aspect-square overflow-hidden rounded-lg",
-                    "flex items-center justify-center",
                     "border border-border bg-background",
                   ].join(" ")}
                 >
-                  {/* TODO: <Image src={item.thumbnailSrc} alt={item.alt} fill className="object-cover" /> */}
-                  <div className="flex flex-col items-center gap-1 p-2 text-center">
-                    <span className="text-3xl text-accent" aria-hidden="true">🎵</span>
-                    <span className="line-clamp-2 text-xs text-muted">{item.caption}</span>
-                  </div>
+                  {item.type === "photo" ? (
+                    <Image
+                      src={item.thumbnailSrc}
+                      alt={item.alt}
+                      fill
+                      sizes="(min-width: 768px) 25vw, 50vw"
+                      className="object-cover"
+                    />
+                  ) : (
+                    <a
+                      href={item.src}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="flex h-full w-full flex-col items-center justify-center gap-1 p-2 text-center focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
+                      aria-label={`Abrir vídeo: ${item.caption ?? item.alt}`}
+                    >
+                      <span className="text-3xl text-accent" aria-hidden="true">▶</span>
+                      <span className="line-clamp-2 text-xs text-muted">{item.caption}</span>
+                    </a>
+                  )}
                 </div>
               </li>
             ))}
