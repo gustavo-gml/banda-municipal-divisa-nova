@@ -107,6 +107,10 @@ html {
   scroll-behavior: smooth;
 }
 
+.home-section {
+  scroll-margin-top: var(--header-offset, 5rem);
+}
+
 /* Respeitar prefers-reduced-motion */
 @media (prefers-reduced-motion: reduce) {
   html {

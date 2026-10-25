@@ -9,6 +9,7 @@
  */
 
 import Container from "@/components/ui/Container";
+import BackToHome from "@/components/layout/BackToHome";
 import Timeline from "@/components/historia/Timeline";
 import { getHistory } from "@/lib/data";
 
@@ -23,6 +24,7 @@ export default async function HistoriaPage() {
 
   return (
     <Container as="div" className="py-12">
+      <BackToHome />
       {/* TODO: adicionar imagem de capa da página de história */}
       <Timeline items={history} />
     </Container>

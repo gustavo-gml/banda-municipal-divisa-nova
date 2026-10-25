@@ -10,6 +10,7 @@
 
 import Container from "@/components/ui/Container";
 import SectionTitle from "@/components/ui/SectionTitle";
+import BackToHome from "@/components/layout/BackToHome";
 import Requirements from "@/components/faca-parte/Requirements";
 import JoinForm from "@/components/faca-parte/JoinForm";
 
@@ -22,6 +23,7 @@ export const metadata = {
 export default function FacaPartePage() {
   return (
     <Container as="div" className="py-12">
+      <BackToHome />
       <SectionTitle subtitle="Venha fazer música com a gente">
         Faça Parte da Nossa Banda
       </SectionTitle>

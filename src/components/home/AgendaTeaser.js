@@ -35,7 +35,7 @@ function formatDate(isoDate) {
  */
 export default function AgendaTeaser({ events = [] }) {
   return (
-    <section aria-label="Próximos Eventos" className="bg-background py-12">
+    <section id="agenda" aria-label="Próximos Eventos" className="home-section bg-background py-12">
       <Container>
         <SectionTitle subtitle="Não perca nenhuma apresentação">
           Próximos Eventos

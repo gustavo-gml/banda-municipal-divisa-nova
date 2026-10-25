@@ -11,6 +11,7 @@
 
 import Container from "@/components/ui/Container";
 import SectionTitle from "@/components/ui/SectionTitle";
+import BackToHome from "@/components/layout/BackToHome";
 import GalleryGrid from "@/components/galeria/GalleryGrid";
 import { getGalleryItems } from "@/lib/data";
 
@@ -25,6 +26,7 @@ export default async function GaleriaPage() {
 
   return (
     <Container as="div" className="py-12">
+      <BackToHome />
       <SectionTitle subtitle="Momentos que ficam na memória">
         Galeria de Fotos e Vídeos
       </SectionTitle>

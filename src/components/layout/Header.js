@@ -24,7 +24,27 @@ import Nav from "./Nav";
 export default function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
   const hamburgerRef = useRef(null);
+  const headerRef = useRef(null);
   const menuId = "mobile-menu";
+
+  /* Mantém o offset das âncoras sincronizado com a altura do cabeçalho. */
+  useEffect(() => {
+    const header = headerRef.current;
+    if (!header) return undefined;
+
+    const updateHeaderOffset = () => {
+      document.documentElement.style.setProperty(
+        "--header-offset",
+        `${header.getBoundingClientRect().height}px`,
+      );
+    };
+
+    updateHeaderOffset();
+    const resizeObserver = new ResizeObserver(updateHeaderOffset);
+    resizeObserver.observe(header);
+
+    return () => resizeObserver.disconnect();
+  }, []);
 
   /* Fechar menu com Esc */
   useEffect(() => {
@@ -48,7 +68,7 @@ export default function Header() {
   }, []);
 
   return (
-    <header className="sticky top-0 z-50 border-b border-border bg-surface shadow-sm">
+    <header ref={headerRef} className="sticky top-0 z-50 border-b border-border bg-surface shadow-sm">
       <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3 md:px-6">
         {/* ---- Logo + Nome ---- */}
         <Link

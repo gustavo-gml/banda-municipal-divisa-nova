@@ -10,6 +10,7 @@
 
 import Container from "@/components/ui/Container";
 import SectionTitle from "@/components/ui/SectionTitle";
+import BackToHome from "@/components/layout/BackToHome";
 import EventCalendar from "@/components/agenda/EventCalendar";
 import EventList from "@/components/agenda/EventList";
 import { getEvents } from "@/lib/data";
@@ -25,6 +26,7 @@ export default async function AgendaPage() {
 
   return (
     <Container as="div" className="py-12">
+      <BackToHome />
       <SectionTitle subtitle="Não perca nenhuma apresentação">
         Agenda de Eventos
       </SectionTitle>

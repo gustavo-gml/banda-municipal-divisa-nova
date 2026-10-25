@@ -10,6 +10,7 @@
 
 import Container from "@/components/ui/Container";
 import SectionTitle from "@/components/ui/SectionTitle";
+import BackToHome from "@/components/layout/BackToHome";
 import ContactInfo from "@/components/contato/ContactInfo";
 import ContactMap from "@/components/contato/ContactMap";
 
@@ -22,6 +23,7 @@ export const metadata = {
 export default function ContatoPage() {
   return (
     <Container as="div" className="py-12">
+      <BackToHome />
       <SectionTitle subtitle="Estamos à disposição para atendê-lo">
         Entre em Contato
       </SectionTitle>

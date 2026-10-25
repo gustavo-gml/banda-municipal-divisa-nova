@@ -14,8 +14,9 @@ import Button from "@/components/ui/Button";
 export default function JoinTeaser() {
   return (
     <section
+      id="faca-parte"
       aria-label="Participe da Banda Municipal"
-      className="bg-primary py-16"
+      className="home-section bg-primary py-16"
     >
       <Container>
         <div className="mx-auto max-w-2xl text-center">

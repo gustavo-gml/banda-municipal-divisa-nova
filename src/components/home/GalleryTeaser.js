@@ -21,7 +21,7 @@ export default function GalleryTeaser({ items = [] }) {
   const preview = items.slice(0, 4);
 
   return (
-    <section aria-label="Galeria de Fotos" className="bg-surface py-12">
+    <section id="galeria" aria-label="Galeria de Fotos" className="home-section bg-surface py-12">
       <Container>
         <SectionTitle subtitle="Momentos que ficam na memória">
           Galeria

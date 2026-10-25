@@ -23,8 +23,9 @@ export default function HistoryTeaser({ history = [] }) {
 
   return (
     <section
+      id="historia"
       aria-label="História da Banda"
-      className="bg-surface py-12"
+      className="home-section bg-surface py-12"
     >
       <Container>
         <div className="grid gap-8 md:grid-cols-2 md:items-center">
