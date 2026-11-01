@@ -59,6 +59,16 @@ export default function GalleryGrid({
 }: GalleryGridProps) {
   const totalPages = Math.max(1, Math.ceil(total / pageSize));
 
+  // ESTADO VAZIO (novo): quando nenhum item está cadastrado no Prismic, mostra mensagem
+  // em vez de uma grade vazia. role="status" avisa leitores de tela.
+  if (items.length === 0) {
+    return (
+      <p role="status" className="rounded-xl border border-border bg-surface p-8 text-center text-muted">
+        Nenhuma foto ou vídeo cadastrado ainda. Volte em breve!
+      </p>
+    );
+  }
+
   return (
     <div>
       {/* ---- Grade de itens ---- */}

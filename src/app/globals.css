@@ -10,13 +10,15 @@
    [data-theme="light"] aplicado pelo next-themes no <html>
    ------------------------------------------------------------- */
 [data-theme="light"] {
-  --background: #fbf8f1; /* creme */
+  --background: #fbf8f1;
+  /* creme */
   --surface: #ffffff;
   --foreground: #0f1b2d;
   --muted: #4a5568;
   --primary: #14284b;
   --primary-foreground: #ffffff;
-  --accent: #d4a017; /* dourado — apenas para fundos, bordas e ícones; nunca texto sobre fundo claro */
+  --accent: #d4a017;
+  /* dourado — apenas para fundos, bordas e ícones; nunca texto sobre fundo claro */
   --accent-foreground: #0f1b2d;
   --border: #d9d2c0;
   --focus: #14284b;
@@ -33,7 +35,8 @@
   --surface: #121b2e;
   --foreground: #f5f1e6;
   --muted: #a9b4c7;
-  --primary: #e0b040; /* dourado claro — legível sobre fundo escuro */
+  --primary: #e0b040;
+  /* dourado claro — legível sobre fundo escuro */
   --primary-foreground: #0b1220;
   --accent: #e0b040;
   --accent-foreground: #0b1220;
@@ -69,10 +72,12 @@
   text-decoration: underline !important;
 }
 
-/* Sem gradientes em alto contraste */
-[data-contrast="high"] [class*="gradient"],
-[data-contrast="high"] [class*="bg-gradient"] {
-  background-image: none !important;
+/* Preservar o overlay do Hero no alto contraste */
+[data-contrast="high"] .hero-overlay {
+  background: linear-gradient(90deg,
+      rgba(0, 0, 0, 0.95) 0%,
+      rgba(0, 0, 0, 0.75) 55%,
+      rgba(0, 0, 0, 0.35) 100%) !important;
 }
 
 /* =============================================================
@@ -103,7 +108,8 @@
    ============================================================= */
 html {
   /* Escala de fonte: controlada pelo AccessibilityContext via style inline no <html> */
-  font-size: 100%; /* 1rem = 16px por padrão */
+  font-size: 100%;
+  /* 1rem = 16px por padrão */
   scroll-behavior: smooth;
 }
 
@@ -187,7 +193,8 @@ h6 {
 
 /* Alvo de toque mínimo (44px × 44px — WCAG 2.5.5) */
 .touch-target {
-  min-height: 2.75rem; /* 44px */
+  min-height: 2.75rem;
+  /* 44px */
   min-width: 2.75rem;
 }
 
@@ -236,4 +243,142 @@ h6 {
 
 ::-webkit-scrollbar-thumb:hover {
   background: var(--muted);
+}
+
+/* Tema normal: não colocar fundo no conteúdo do hero */
+.hero-content {
+  background: transparent;
+  color: inherit;
+  padding: 0;
+}
+
+/* Alto contraste: preservar a fotografia e a estrutura do Hero */
+[data-contrast="high"] .hero-content {
+  background: transparent !important;
+  color: #fff !important;
+  width: 100%;
+  max-width: none;
+  margin-inline: 0;
+  padding: 0;
+  border: none;
+  border-radius: 0;
+}
+
+/* Garantir legibilidade do título */
+[data-contrast="high"] .hero-content h1,
+[data-contrast="high"] .hero-content p {
+  color: #fff !important;
+  text-shadow: 2px 2px 4px #000;
+}
+
+/* =============================================================
+   HERO INSTITUCIONAL
+   ============================================================= */
+
+.hero-institutional h1,
+.hero-institutional p {
+  color: #fff;
+}
+
+/* =============================================================
+   DESFOQUE E ESCURECIMENTO LOCALIZADO
+   ============================================================= */
+
+.hero-text-focus {
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 85%;
+  z-index: 1;
+  pointer-events: none;
+
+  /* Intensidade do desfoque */
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
+
+  /* Escurecimento */
+  background: linear-gradient(90deg,
+      rgba(0, 0, 0, 0.65) 15%,
+      rgba(0, 0, 0, 0.40) 55%,
+      transparent 75%);
+
+  /* Transição gradual */
+  mask-image: linear-gradient(to right,
+      black 0%,
+      black 45%,
+      transparent 100%);
+
+  -webkit-mask-image: linear-gradient(to right,
+      black 0%,
+      black 45%,
+      transparent 100%);
+}
+
+/* =============================================================
+   OVERLAY GERAL
+   ============================================================= */
+
+.hero-overlay {
+  pointer-events: none;
+  background: rgba(0, 0, 0, 0.20);
+}
+
+/* =============================================================
+   ALTO CONTRASTE
+   ============================================================= */
+
+[data-contrast="high"] .hero-institutional {
+  background: #000 !important;
+}
+
+[data-contrast="high"] .hero-institutional .hero-overlay {
+  background: rgba(0, 0, 0, 0.30) !important;
+  opacity: 1;
+}
+
+[data-contrast="high"] .hero-institutional .hero-text-focus {
+  background: linear-gradient(90deg,
+      rgba(0, 0, 0, 0.85) 0%,
+      rgba(0, 0, 0, 0.60) 55%,
+      transparent 100%) !important;
+
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
+
+  mask-image: linear-gradient(to right,
+      black 0%,
+      transparent 100%);
+
+  -webkit-mask-image: linear-gradient(to right,
+      black 0%,
+      transparent 100%);
+}
+
+/* =============================================================
+   BOTÕES DO HERO — IDENTIDADE MUSICAL INSTITUCIONAL
+   ============================================================= */
+.hero-institutional a[href="/sobre"],
+.hero-institutional a[href="/agenda"] {
+  background: #fbf8f1 !important;
+  color: #14284b !important;
+  border: 1px solid rgba(224, 176, 64, 0.8) !important;
+  border-radius: 4px;
+  padding: 15px 27px;
+  font-weight: 600;
+  transition: all 0.25s ease;
+}
+
+.hero-institutional a[href="/sobre"]:hover,
+.hero-institutional a[href="/agenda"]:hover {
+  background: #e0b040 !important;
+  color: #14284b !important;
+  border-color: #e0b040 !important;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.25);
+}
+
+/* ALTO CONTRASTE */
+[data-contrast="high"] .hero-institutional a {
+  background: #000 !important;
+  color: #fff !important;
+  border: 2px solid #fff !important;
 }
