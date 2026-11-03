@@ -8,17 +8,18 @@
  * TODO: adicionar galeria de fotos históricas abaixo da timeline.
  */
 
+import { Metadata } from "next";
+import { getHistory } from "@/lib/data";
+import Timeline from "@/components/historia/Timeline";
 import Container from "@/components/ui/Container";
 import BackToHome from "@/components/layout/BackToHome";
-import Timeline from "@/components/historia/Timeline";
-import { getHistory } from "@/lib/data";
-import type { Metadata } from "next";
+
 
 export const metadata: Metadata = {
   title: "História",
-  description:
-    "Conheça a trajetória da Banda Municipal José Ângelo Vaz de Divisa Nova – MG, desde sua fundação em 1945 até os dias de hoje.",
+  description: "Conheça a trajetória da Banda Municipal José Ângelo Vaz de Divisa Nova - MG, desde sua fundação em 1945 até os dias de hoje.",
 };
+
 
 export default async function HistoriaPage() {
   const history = await getHistory();

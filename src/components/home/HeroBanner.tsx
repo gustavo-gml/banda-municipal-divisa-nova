@@ -140,14 +140,14 @@ export default function HeroBanner() {
 
           {/* IDENTIDADE INSTITUCIONAL */}
           <p className="mt-5 text-xs font-semibold uppercase tracking-[0.2em] text-[#E0B040] sm:text-sm">
-            Divisa Nova · Minas Gerais · Desde 1945
+            Divisa Nova · Minas Gerais · Desde 1982
           </p>
 
           {/* BOTÕES */}
           <div className="mt-9 flex flex-col gap-4 sm:flex-row">
 
             <Button
-              href="/sobre"
+              href="/historia"
               size="lg"
               variant="secondary"
             >
