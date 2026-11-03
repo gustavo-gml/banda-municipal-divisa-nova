@@ -26,7 +26,7 @@ const MAPS_LINK =
 
 export default function LocationMap() {
   return (
-    <section id="contato" aria-label="Localização da Banda Municipal" className="home-section bg-background py-12">
+    <section id="contato" aria-label="Localização da Banda Municipal" className="home-section bg-surface py-12">
       <Container>
         <SectionTitle subtitle="Venha nos visitar em Divisa Nova – MG">
           Onde Estamos

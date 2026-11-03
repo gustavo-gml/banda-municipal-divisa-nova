@@ -44,7 +44,7 @@ export default function Footer() {
   const currentYear = CURRENT_YEAR;
 
   return (
-    <footer className="border-t border-border bg-surface" role="contentinfo">
+    <footer className="border-t border-border bg-background" role="contentinfo">
       <div className="mx-auto max-w-7xl px-4 py-10 md:px-6">
         <div className="grid gap-8 md:grid-cols-3">
           {/* ---- Coluna 1: Identidade ---- */}
