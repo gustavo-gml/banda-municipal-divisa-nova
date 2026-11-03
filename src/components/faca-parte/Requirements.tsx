@@ -10,12 +10,12 @@
 import Card from "@/components/ui/Card";
 
 const REQUIREMENTS = [
-  {
+ {
   id: "req-4",
-  icon: "📞",
-  title: "Como ingressar",
+  icon: "🎂",
+  title: "Idade mínima",
   description:
-    "Para obter informações sobre como participar, entre em contato diretamente com o maestro pelo telefone disponível nesta página.",
+    "Para ingressar na banda, é necessário ter mais de 10 anos de idade.",
 },
   
 ];
