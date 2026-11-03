@@ -1,47 +1,44 @@
 /**
- * Requirements.js — Componente da página /faca-parte
+ * Requirements.tsx — Componente da página /faca-parte
  *
- * Bloco de requisitos e benefícios para ingressar na banda.
+ * Apresenta informações para interessados em ingressar na banda.
  *
- * TODO: substituir os dados estáticos pelo conteúdo do Prismic.
- * TODO: adicionar acordeão (FAQ) para perguntas frequentes de candidatos.
+ * TODO: substituir informações pendentes por dados oficiais.
+ * TODO: integrar conteúdo ao Prismic futuramente.
  */
 
 import Card from "@/components/ui/Card";
 
 const REQUIREMENTS = [
   {
-    id: "req-1",
-    icon: "📍",
-    title: "Residência",
-    description: "Ser morador de Divisa Nova ou municípios vizinhos.",
-  },
-  {
-    id: "req-2",
-    icon: "🎂",
-    title: "Idade",
-    description: "Ter a partir de 10 anos de idade. Menores precisam de autorização dos responsáveis.",
-  },
-  {
-    id: "req-3",
-    icon: "🎵",
-    title: "Experiência",
-    description: "Não é necessária experiência prévia com instrumentos. Oferecemos formação do zero.",
-  },
-  {
-    id: "req-4",
-    icon: "📅",
-    title: "Disponibilidade",
-    description: "Comparecer aos ensaios semanais (dias e horários a confirmar) e às apresentações oficiais.",
-  },
+  id: "req-4",
+  icon: "📞",
+  title: "Como ingressar",
+  description:
+    "Para obter informações sobre como participar, entre em contato diretamente com o maestro pelo telefone disponível nesta página.",
+},
+  
 ];
 
 const BENEFITS = [
-  { id: "ben-1", icon: "🎓", text: "Aulas gratuitas de instrumento e teoria musical" },
-  { id: "ben-2", icon: "👗", text: "Uniforme fornecido pela prefeitura" },
-  { id: "ben-3", icon: "🤝", text: "Convívio cultural e social" },
-  { id: "ben-4", icon: "🌟", text: "Participação em eventos e festividades da cidade" },
+  {
+    id: "ben-1",
+    icon: "🎵",
+    text: "Vivência e prática musical em grupo",
+  },
+  {
+    id: "ben-2",
+    icon: "🤝",
+    text: "Integração cultural e social",
+  },
+  {
+    id: "ben-3",
+    icon: "🌟",
+    text: "Participação nas atividades da banda, conforme a programação",
+  },
 ];
+
+
 
 export default function Requirements() {
   return (
@@ -68,7 +65,7 @@ export default function Requirements() {
 
       {/* ---- Benefícios ---- */}
       <h2 className="font-heading text-2xl font-bold text-foreground mt-10 mb-6">
-        O que você ganha
+        O que a banda proporciona
       </h2>
       <ul className="space-y-3" role="list">
         {BENEFITS.map((ben) => (
