@@ -35,7 +35,7 @@ export default function JoinTeaser() {
 
           {/* Destaques rápidos */}
           <ul
-            className="mx-auto mt-6 grid max-w-sm grid-cols-1 gap-3 text-sm text-primary-foreground/90 sm:grid-cols-3"
+            className="mx-auto mt-6 grid max-w-3xl grid-cols-1 gap-3 text-sm text-primary-foreground/90 sm:grid-cols-3"
             role="list"
           >
             {[
@@ -45,7 +45,7 @@ export default function JoinTeaser() {
             ].map(({ icon, text }) => (
               <li
                 key={text}
-                className="flex items-center gap-2 rounded-lg border border-primary-foreground/20 px-3 py-2"
+                className="flex min-h-12 items-center justify-center gap-2 rounded-lg border border-primary-foreground/20 px-3 py-2 text-center"
               >
                 <span aria-hidden="true">{icon}</span>
                 {text}
@@ -54,7 +54,12 @@ export default function JoinTeaser() {
           </ul>
 
           <div className="mt-8">
-            <Button href="/faca-parte" variant="secondary" size="lg">
+            <Button
+              href="/faca-parte"
+              variant="secondary"
+              size="lg"
+              className="!border-primary-foreground !bg-primary-foreground !text-primary hover:!bg-surface hover:!text-foreground"
+            >
               Saiba Como Ingressar
             </Button>
           </div>
