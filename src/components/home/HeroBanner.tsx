@@ -1,7 +1,7 @@
 
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useSyncExternalStore } from "react";
 import Image from "next/image";
 import Container from "@/components/ui/Container";
 import Button from "@/components/ui/Button";
@@ -25,26 +25,31 @@ const imagens = [
   },
 ];
 
+const REDUCED_MOTION_QUERY = "(prefers-reduced-motion: reduce)";
+
+function subscribeToReducedMotion(callback: () => void) {
+  const mediaQuery = window.matchMedia(REDUCED_MOTION_QUERY);
+  mediaQuery.addEventListener("change", callback);
+  return () => mediaQuery.removeEventListener("change", callback);
+}
+
+function getReducedMotionSnapshot() {
+  return window.matchMedia(REDUCED_MOTION_QUERY).matches;
+}
+
+function getReducedMotionServerSnapshot() {
+  return false;
+}
+
 export default function HeroBanner() {
   const [atual, setAtual] = useState(0);
   const [pausado, setPausado] = useState(false);
   const [interagindo, setInteragindo] = useState(false);
-  const [reduzirMovimento, setReduzirMovimento] = useState(false);
-
-  // Respeita a preferência de movimento reduzido.
-  useEffect(() => {
-    const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
-
-    setReduzirMovimento(mq.matches);
-
-    const atualizar = (e: MediaQueryListEvent) => {
-      setReduzirMovimento(e.matches);
-    };
-
-    mq.addEventListener("change", atualizar);
-
-    return () => mq.removeEventListener("change", atualizar);
-  }, []);
+  const reduzirMovimento = useSyncExternalStore(
+    subscribeToReducedMotion,
+    getReducedMotionSnapshot,
+    getReducedMotionServerSnapshot,
+  );
 
   // Controle da troca automática.
   const autoplayAtivo =
